@@ -1,0 +1,51 @@
+Ide Proyek:
+NOIR – Noise and Air Quality Monitoring System
+
+Deskirpsi Proyek:
+Sistem pemantauan otomatis untuk ruang belajar seperti perpustakaan atau ruang kelas yang melakukan pemantauan terhadap kebisingan dan kualitas udara secara real-time untuk memastikan suasana belajar yang nyaman dan kondusif. Sistem mengaplikasikan sensor suara KY-037 untuk mendeteksi tingkat kebisingan dan sensor gas MQ-135 serta DHT22 untuk memantau kualitas udara, suhu, dan kelembaban. Data pemantauan dapat dikirim dan ditampilkan pada monitor melalui komunikasi serial untuk pemantauan jarak jauh dan pencatatan data. Ketika tingkat kebisingan dan/atau konsentrasi gas melampaui ambang batas yang ditentukan, sistem akan memberikan peringatan langsung melalui LED warna-warni dan bunyi buzzer.
+
+Implementasi Modul:
+Modul 2 (Introduction to Assembly & I/O Programming):
+
+Mengatur input dari sensor suara (KY-037), gas (MQ-2), dan suhu/kelembaban (DHT22).
+
+Mengontrol output berupa LED dan buzzer sebagai indikator kualitas udara dan kebisingan.
+
+Modul 3 (ADC - Analog to Digital Conversion):
+
+Membaca data analog dari sensor kebisingan dan gas untuk dikonversi menjadi data digital yang dapat diproses oleh Arduino.
+
+Modul 4 (Serial Port - USART):
+
+Mengirim data kualitas udara dan kebisingan ke komputer untuk pemantauan real-time melalui antarmuka serial.
+
+Modul 6 (Timer):
+
+Mengatur interval pembacaan sensor, misalnya setiap 5 detik.
+
+Mengatur waktu peringatan pada buzzer agar tidak berbunyi terus-menerus.
+
+Modul 7 (Interrupt):
+
+Menangani perubahan drastis dalam kebisingan atau konsentrasi gas secara cepat.
+
+Menggunakan interrupt eksternal untuk mendeteksi perubahan keadaan secara langsung.
+
+Modul 8 (I2C dan SPI):
+
+Menggunakan serial monitor untuk menampilkan informasi kebisingan, kualitas udara, dan suhu.
+
+Menggunakan modul RTC (melalui I2C) untuk mencatat waktu pengambilan data.
+
+Modul 9 (Sensor Interfacing):
+
+Mengintegrasikan berbagai sensor (KY-037, MQ-135, DHT22) dengan Arduino dan memastikan pembacaan data berjalan lancar.
+
+Nilai Guna:
+Sistem ini membantu menjaga kesehatan dengan memberikan informasi kualitas udara secara langsung. Pengguna dapat mengetahui kapan harus membuka ventilasi atau menggunakan alat pembersih udara berdasarkan notifikasi yang diberikan.
+
+Keunggulan Ide:
+Relevansi: Kualitas udara di ruang tertutup sangat penting, terutama di laboratorium.
+Kreativitas: Menggabungkan notifikasi visual, suara, dan data serial untuk meningkatkan aksesibilitas.
+Implementasi: Menggunakan berbagai modul dalam satu sistem, meningkatkan kompleksitas dan nilai proyek.
+Nilai Guna: Dapat diterapkan di laboratorium, ruangan kerja, atau tempat yang membutuhkan monitoring kualitas udara secara langsung.
