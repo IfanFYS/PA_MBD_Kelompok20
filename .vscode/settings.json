@@ -1,0 +1,6 @@
+{
+    "files.associations": {
+        "*.dbclient-js": "javascript",
+        "Contoh ADC SPI Slave.C": "cpp"
+    }
+}
