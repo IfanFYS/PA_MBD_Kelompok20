@@ -1,6 +1,6 @@
-# Ignore example code folder
-Contoh Kode/
-
 # Ignore Proteus backup and workspace files
 *.pdsbak
 *.workspace
+
+# Ignore VSCode workspace files
+.vscode/
