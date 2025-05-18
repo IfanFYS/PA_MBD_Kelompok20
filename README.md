@@ -1,92 +1,184 @@
-# NOIR - Noise and Air Quality Monitoring System
+# 🎛️ NOIR - Noise and Air Quality Monitoring System 🌬️
 
-## Deskripsi Proyek
+<div align="center">
+  <img src="https://img.shields.io/badge/Platform-Arduino-00979D?style=for-the-badge&logo=arduino" alt="Arduino"/>
+  <img src="https://img.shields.io/badge/Language-Assembly-8A2BE2?style=for-the-badge" alt="Assembly"/>
+  <img src="https://img.shields.io/badge/Simulation-Proteus-006175?style=for-the-badge" alt="Proteus"/>
+</div>
+
+## 📋 Deskripsi Proyek 
+
 NOIR (Noise and Air Quality Monitoring System) adalah sistem pemantauan otomatis untuk ruang belajar seperti perpustakaan atau ruang kelas. Sistem ini melakukan pemantauan terhadap kebisingan (noise) dan kualitas udara (air quality) secara real-time untuk memastikan suasana belajar yang nyaman dan kondusif.
 
-## Arsitektur Sistem
-Sistem NOIR terdiri dari dua komponen Arduino:
-1. **Arduino Slave**: Terhubung dengan sensor-sensor dan melakukan pengumpulan data.
-2. **Arduino Master**: Menerima data dari Slave, mengevaluasi kondisi, dan memberikan peringatan bila diperlukan.
+## 🏗️ Arsitektur Sistem 
 
-## Fitur Utama
-- Pemantauan tingkat kebisingan menggunakan sensor suara KY-037
-- Pemantauan kualitas udara menggunakan sensor gas MQ-2/MQ-135
-- Indikator visual (3 LED) untuk status kondisi lingkungan
-- Indikator suara (buzzer) untuk peringatan
-- Button untuk mematikan bunyi peringatan
-- Komunikasi antara Arduino menggunakan protokol I2C
-- Output data pemantauan melalui Serial Monitor
+Sistem NOIR menggunakan arsitektur master-slave dengan dua Arduino yang berkomunikasi menggunakan protokol SPI:
 
-## Implementasi Modul
-### Modul 2 (Introduction to Assembly & I/O Programming)
-- Program Assembly untuk mengontrol komponen I/O pada Master (LED, buzzer, button)
-- Pengaturan pin digital untuk komponen I/O dasar
+1. **Arduino Slave** 🔄:
+   - Terhubung dengan sensor suara (KY-037) dan sensor gas (MQ-2/MQ-135)
+   - Dalam simulasi Proteus, sensor direpresentasikan oleh potensiometer
+   - Melakukan konversi analog-to-digital (ADC) dari nilai sensor
+   - Mengirimkan data sensor ke Arduino Master melalui protokol SPI
 
-### Modul 3 (ADC - Analog to Digital Conversion)
-- Konversi analog ke digital untuk sensor suara dan gas
-- Pemrosesan data analog menjadi nilai digital
-- Penentuan ambang batas (threshold) untuk tingkat kebisingan dan konsentrasi gas
+2. **Arduino Master** 🧠:
+   - Menerima data dari Arduino Slave
+   - Mengevaluasi nilai sensor terhadap ambang batas yang ditentukan
+   - Menampilkan nilai sensor melalui Serial Monitor
+   - Mengontrol indikator visual (LED) sesuai dengan status kondisi
+   - Mengelola peringatan audio (buzzer) saat kondisi berbahaya terdeteksi
+   - Memproses input pengguna melalui button untuk mematikan buzzer
 
-### Modul 4 (Serial Port - USART)
-- Komunikasi serial pada Master untuk menampilkan data ke Serial Monitor
-- Format pesan untuk menampilkan status pemantauan secara real-time
+## ✨ Fitur Utama 
 
-### Modul 6 (Timer)
-- Pengambilan data sensor pada interval waktu tetap
-- Pengaturan frekuensi kedipan LED peringatan
-- Pengaturan durasi bunyi buzzer
+- **🎚️ Pemantauan Multi-Parameter**: Memantau tingkat kebisingan dan kualitas udara secara simultan 
+- **💡 Indikator Status Visual**:
+  - 🟢 LED Hijau: kondisi normal (semua parameter dalam batas aman)
+  - 🟡 LED Kuning: peringatan kebisingan (tingkat suara melebihi ambang batas)
+  - 🔴 LED Merah: peringatan kualitas udara (nilai gas melebihi ambang batas)
+- **🔊 Sistem Peringatan Audio**:
+  - Buzzer dengan pola bunyi teratur untuk peringatan
+  - Dapat dimatikan sementara melalui tombol
+  - Reaktivasi otomatis setelah timeout jika kondisi berbahaya masih berlanjut
+- **👤 Interface Pengguna**:
+  - Button untuk mematikan bunyi peringatan
+  - Output data pemantauan melalui Serial Monitor dengan format persentase
+  - Notifikasi status dan peringatan melalui Serial Monitor
+- **📡 Komunikasi Antar-Mikrokontroler**: Implementasi protokol SPI untuk pertukaran data antar Arduino
 
-### Modul 7 (Interrupt)
-- Interrupt untuk button yang mematikan buzzer
-- Interrupt pada kondisi threshold terlampaui
+## 💻 Implementasi Proyek 
 
-### Modul 8 (I2C)
-- Komunikasi I2C untuk pengiriman data dari Slave ke Master
-- Format paket data untuk transmisi nilai kebisingan dan kualitas udara
+### 🧩 Komponen Assembly
 
-### Modul 9 (Sensor Interfacing)
-- Antarmuka untuk sensor suara KY-037
-- Antarmuka untuk sensor gas MQ-2/MQ-135
-- Pengolahan sinyal sensor untuk mendapatkan pembacaan yang akurat
+Proyek ini diimplementasikan dengan bahasa AVR Assembly yang diintegrasikan dengan Arduino IDE, mencakup:
 
-## Struktur Kode
-### NOIR_Master
-- **NOIR_Master.ino**: Kode Arduino utama untuk Master
-- **NOIR_Master.S**: Kode Assembly untuk fungsi-fungsi pemrosesan data dan kontrol I/O
+- **⚙️ Pengaturan I/O**: Konfigurasi pin digital untuk LED, buzzer, dan button
+- **📊 Konversi Analog-Digital**: Pembacaan nilai sensor dengan resolusi 8-bit
+- **🔄 Protokol SPI**: Implementasi komunikasi master-slave antar Arduino
+- **📝 Serial Formatting**: Konversi dan transmisi data dalam format persentase
+- **🧠 Manajemen Status Sistem**: Pelacakan kondisi peringatan dan status buzzer
+- **🔘 Debouncing Button**: Deteksi tepi (edge detection) untuk input button yang andal
+- **⏱️ Timer Software**: Implementasi timer untuk manajemen buzzer dan timeout
 
-### NOIR_Slave
-- **NOIR_Slave.ino**: Kode Arduino utama untuk Slave
-- **NOIR_Slave.S**: Kode Assembly untuk fungsi-fungsi pembacaan sensor dan konversi data
+### 🔧 Teknik Implementasi
 
-## Koneksi Pin
-### Arduino Master
-- D2: LED Merah (warning kebisingan)
-- D3: LED Kuning (warning kualitas udara)
-- D4: LED Hijau (status normal)
-- D5: Buzzer
-- D6: Button (mematikan buzzer)
-- A4/A5: I2C (SDA/SCL) terhubung ke Slave
+- **↕️ Edge-Triggered Inputs**: Deteksi perubahan status button untuk interaksi yang responsif
+- **⏲️ Timer Logic**: Implementasi timer software untuk buzzer cycling dan timeout
+- **📊 State Management**: Pelacakan status peringatan dan kondisi silencing
+- **🔬 Enhanced Simulation**: Teknik khusus untuk memastikan komponen simulasi di Proteus bekerja dengan baik
+- **📂 Modular Code Structure**: Kode yang terorganisir dalam subrutin terkait fungsi tertentu
+- **⚡ Real-time Processing**: Pemrosesan nilai sensor dan evaluasi kondisi secara real-time
 
-### Arduino Slave
-- A0: Sensor Suara (KY-037)
-- A1: Sensor Gas (MQ-2/MQ-135)
-- A4/A5: I2C (SDA/SCL) terhubung ke Master
+## 📁 Struktur Kode
 
-## Cara Penggunaan
+Proyek NOIR terdiri dari beberapa komponen kode yang terorganisir:
+
+### 🎛️ NOIR_Master_FINAL
+
+- **NOIR_Master.ino**: File wrapper Arduino yang mengintegrasikan kode Assembly
+- **NOIR_Master.S**: Kode AVR Assembly untuk Arduino Master yang menangani:
+  - Inisialisasi komunikasi SPI dan Serial
+  - Pembacaan data dari Slave via SPI
+  - Pemrosesan data sensor dan perbandingan dengan ambang batas
+  - Pengendalian LED, buzzer, dan logika peringatan
+  - Antarmuka pengguna melalui button dan LED
+  - Pengelolaan status peringatan dan sistem silencing
+
+### 🔌 NOIR_Slave_FINAL
+
+- **NOIR_Slave.ino**: File wrapper Arduino yang mengintegrasikan kode Assembly
+- **NOIR_Slave.S**: Kode AVR Assembly untuk Arduino Slave yang menangani:
+  - Inisialisasi ADC dan komunikasi SPI
+  - Pembacaan sensor analog (sound dan gas)
+  - Konversi nilai sensor ke format digital
+  - Pengiriman data ke Master saat diminta melalui SPI
+  - Debug output ke Serial Monitor
+
+### 📚 Folder Pendukung Lainnya
+
+- **NOIR_CPP**: Versi C++ dari sistem sebagai referensi
+- **Proteus Tests**: Berbagai program uji untuk komponen individual
+- **Dokumentasi**: File dokumentasi dan rancangan proyek
+
+## 🔌 Koneksi Pin
+
+### 🎛️ Arduino Master
+
+- **Digital I/O**:
+  - PD2 (2): 🟢 LED Hijau - indikator status normal
+  - PD3 (3): 🟡 LED Kuning - indikator peringatan suara
+  - PD4 (4): 🔴 LED Merah - indikator peringatan gas
+  - PD5 (5): 🔊 Buzzer - indikator audio peringatan
+  - PD6 (6): 🔘 Button - kontrol mematikan buzzer
+ 
+- **SPI (PORTB)**:
+  - PB2 (SS): Slave Select
+  - PB3 (MOSI): Master Out Slave In
+  - PB4 (MISO): Master In Slave Out
+  - PB5 (SCK): Serial Clock
+
+### 🔌 Arduino Slave
+
+- **Analog Input**:
+  - PC0/A0: 🎚️ Sensor suara (KY-037) atau potensiometer
+  - PC1/A1: 💨 Sensor gas (MQ-2/MQ-135) atau potensiometer
+
+- **SPI (PORTB)**:
+  - PB2 (SS): Slave Select
+  - PB3 (MOSI): Master Out Slave In
+  - PB4 (MISO): Master In Slave Out
+  - PB5 (SCK): Serial Clock
+
+## 📝 Cara Penggunaan
+
 1. Upload kode NOIR_Slave.ino ke Arduino Slave
 2. Upload kode NOIR_Master.ino ke Arduino Master
-3. Hubungkan semua komponen sesuai dengan koneksi pin yang telah ditentukan
-4. Buka Serial Monitor untuk melihat data pemantauan
-5. Amati indikator LED dan buzzer untuk status kondisi
+3. Hubungkan semua komponen (LED, buzzer, button, potensiometer) sesuai diagram koneksi
+4. Buka Serial Monitor untuk Arduino Master dengan baud rate 9600
+5. Atur nilai potensiometer untuk mensimulasikan berbagai kondisi sensor
+6. Amati respons LED dan buzzer terhadap perubahan nilai sensor
+7. Tekan button untuk mematikan buzzer saat peringatan aktif
+8. Perhatikan reset otomatis silencing setelah timeout atau ketika kondisi kembali normal
 
-## Simulasi di Proteus
-Untuk simulasi sistem di Proteus, silakan merujuk ke file [Proteus_Setup_Guide.md](./Proteus_Setup_Guide.md) untuk petunjuk lengkap.
+## 📊 Nilai Ambang Batas (Threshold)
 
-## Anggota Kelompok
-- [Nama Anggota 1]
-- [Nama Anggota 2]
-- [Nama Anggota 3]
-- ...
+Sistem NOIR menggunakan ambang batas berikut untuk deteksi kondisi peringatan:
 
-## Lisensi
-[Sesuaikan dengan lisensi proyek]
+- **🎚️ Ambang Batas Suara**: 153 (60% dari nilai maksimum 255)
+  - Nilai ≥ 153: Peringatan suara aktif
+  - Nilai < 153: Status suara normal
+
+- **💨 Ambang Batas Gas**: 178 (70% dari nilai maksimum 255)
+  - Nilai ≥ 178: Peringatan gas aktif
+  - Nilai < 178: Status gas normal
+
+## 🖥️ Simulasi di Proteus
+
+Proyek ini dikembangkan dan diuji menggunakan simulator Proteus untuk memastikan fungsionalitas sebelum implementasi pada perangkat keras. Beberapa pertimbangan khusus dalam simulasi:
+
+- 🔊 Buzzer dalam Proteus memerlukan penanganan khusus (toggle beberapa kali) untuk simulasi yang akurat
+- 📊 Nilai ADC disimulasikan menggunakan potensiometer
+- ⏱️ Komunikasi SPI memerlukan pengaturan timing yang tepat untuk simulasi yang stabil
+
+## 🧪 Pengembangan dan Pengujian
+
+Proyek ini dikembangkan menggunakan pendekatan bertahap:
+
+1. Implementasi dan pengujian fitur-fitur individual (ADC, SPI, LED, Button)
+2. Integrasi komponen ke dalam sistem lengkap
+3. Verifikasi fungsionalitas di simulator Proteus
+4. Penyempurnaan kode untuk stabilitas dan ketahanan
+
+## 👥 Anggota Kelompok
+
+| Nama | NPM |
+|------|-----|
+| [Daffa Hardhan](https://github.com/DHard4114) | 2306161763 |
+| [Fathan Yazid Satriani](https://github.com/IfanFYS) | 2306250560 |
+| [Musyaffa Iman Supriadi](https://github.com/musyaffa-iman) | 2306208464 |
+| [Raka Arrayan](https://github.com/raka-arrayan) | 2306161800 |
+
+---
+
+<div align="center">
+  <p>© 2025 NOIR Team - Kelompok 23, Praktikum Sistem Embedded</p>
+</div>
