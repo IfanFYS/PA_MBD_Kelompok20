@@ -180,5 +180,5 @@ Proyek ini dikembangkan menggunakan pendekatan bertahap:
 ---
 
 <div align="center">
-  <p>© 2025 NOIR Team - Kelompok 23, Praktikum Sistem Embedded</p>
+  <p>© 2025 NOIR Team - Kelompok 20, Praktikum Sistem Embedded</p>
 </div>
